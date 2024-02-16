@@ -29,41 +29,6 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
 
     }
 
-//    @NotNull
-//    @Override
-//    public Mono<Void> filter(ServerWebExchange exchange, @NotNull WebFilterChain chain) {
-//
-//        ServerHttpRequest request = exchange.getRequest();
-//
-//        String authHeader = request.getHeaders().getFirst("Authorization");
-//
-//
-//        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-//            throw GlobalException.builder()
-//                    .httpStatus(HttpStatus.UNAUTHORIZED)
-//                    .message("not authorize")
-//                    .build();
-//        }
-//        String token = authHeader.substring(7);
-//
-//        try {
-//            jwtUtil.validateToken(token);
-//            Claims claims = jwtUtil.getClaims(token);
-//
-//            exchange.getRequest().mutate().header("jti", String.valueOf(claims.get("jti"))).build();
-//
-//
-//         // -------------------
-//            return chain.filter(exchange);
-//
-//        } catch (Exception e) {
-//            GlobalException.builder()
-//                    .httpStatus(HttpStatus.UNAUTHORIZED)
-//                    .message(e.getMessage())
-//                    .build();
-//        }
-//        return chain.filter(exchange);
-//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -71,8 +36,7 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Origin,Content-Type, Accept, x-device-user-agent, Content-Type");
 
-        //String authHeader = request.getHeader("Authorization");
-        String authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcm5uIiwiaXNzIjoiZXJuIiwiZXhwIjoxNzA3NjY0Mzc3fQ.yqxn7Bhyn7_SToAUub4RTvXMTpzQxrl3dOKsArnzPMA";
+        String authHeader = request.getHeader("Authorization");
 
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

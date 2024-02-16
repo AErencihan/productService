@@ -7,6 +7,7 @@ import com.example.productservice.model.Image;
 import com.example.productservice.model.Product;
 import com.example.productservice.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,22 +22,21 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    private final KafkaService kafkaService;
 
-    public ProductService(ImageService imageService, ProductRepository productRepository) {
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+
+
+
+    public ProductService(ImageService imageService, ProductRepository productRepository, KafkaService kafkaService, KafkaTemplate<String, String> kafkaTemplate) {
         this.imageService = imageService;
         this.productRepository = productRepository;
+        this.kafkaService = kafkaService;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
 
-//    public ProductDto createProduct(Product product){
-//         Product saveproduct = productRepository.save(product);
-//            return ProductDto.builder()
-//                    .productName(saveproduct.getProductName())
-//                    .createTime(saveproduct.getCreateTime())
-//                    .status(saveproduct.getStatus())
-//                    .build();
-//
-//    }
 
 
     public ProductDto createProduct(Product product, MultipartFile file) {
@@ -53,6 +53,8 @@ public class ProductService {
         }
 
         Product saveproduct = productRepository.save(product);
+        kafkaTemplate.send("topicProduct", kafkaService.serializedData(saveproduct));
+
         return ProductDto.builder()
                 .productName(saveproduct.getProductName())
                 .createTime(saveproduct.getCreateTime())
@@ -62,8 +64,11 @@ public class ProductService {
     }
 
 
+
+
+
     public ProductDto updateProduct(Product product, MultipartFile file) {
-        Optional<Product> optionalProduct = productRepository.findByUserName(product.getProductName());
+        Optional<Product> optionalProduct = productRepository.findByProductName(product.getProductName());
         if (optionalProduct.isEmpty()) {
             throw GlobalException.builder()
                     .httpStatus(HttpStatus.NOT_FOUND)

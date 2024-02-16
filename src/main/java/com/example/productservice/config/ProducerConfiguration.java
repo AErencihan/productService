@@ -1,5 +1,6 @@
 package com.example.productservice.config;
 
+import com.example.productservice.model.Product;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ public class ProducerConfiguration {
 
     private static final String KAFKA_BROKER = "localhost:9092";
 
+    private static final String TOPIC = "topicProduct";
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {

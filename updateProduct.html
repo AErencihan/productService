@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Güncelle</title>
+</head>
+<body>
+<h1>Ürün Güncelle</h1>
+<form method="PUT" enctype="multipart/form-data" id="fileUploadForm" action="http://localhost:8084/api/product/update">
+    <input type="text" name="name" placeholder="Ürün Adı"/><br/> <!-- Güncellenecek ürünün adı -->
+    <input type="text" name="status" placeholder="Durumu"/><br/><br/> <!-- Yeni durumu -->
+    <input type="file" name="file"/><br/><br/> <!-- Yeni resim dosyası -->
+    <input type="submit" value="Güncelle" id="btnSubmit"/>
+</form>
+
+</body>
+</html>

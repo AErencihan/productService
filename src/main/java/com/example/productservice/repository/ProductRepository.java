@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @NotNull
-    Optional<Product> findByUserName(@NotNull String userName);
+    Optional<Product> findByProductName(@NotNull String productName);
 
 }

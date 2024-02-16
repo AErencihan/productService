@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ProductDto updateProduct(FormWrapper formWrapper) {
+    public ProductDto updateProduct(@ModelAttribute FormWrapper formWrapper) {
         return productService.updateProduct(Product.builder()
                 .productName(formWrapper.getName())
                 .status(formWrapper.getStatus())
