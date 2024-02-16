@@ -4,6 +4,7 @@ package com.example.productservice.service;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.messages.Bucket;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,13 @@ import java.util.List;
 public class ImageService {
 
     @Autowired
-    MinioClient minioClient;
+    private MinioClient minioClient;
 
     @Value("${minio.bucket.name}")
-    String defaultBucketName;
+    private String defaultBucketName;
 
     @Value("${minio.default.folder}")
-    String defaultBaseFolder;
+    private String defaultBaseFolder;
 
     private final String minioUrl = "http://localhost:9000/";
 
