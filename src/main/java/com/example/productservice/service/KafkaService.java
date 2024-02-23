@@ -22,7 +22,7 @@ public class KafkaService {
         } catch (JsonProcessingException e) {
             throw GlobalException.builder()
                     .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .message("")
+                    .message(e.getMessage())
                     .build();
         }
         return productConvertString;

@@ -22,7 +22,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String productName;
 
     @CreationTimestamp

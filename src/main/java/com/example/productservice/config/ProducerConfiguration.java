@@ -15,7 +15,7 @@ import java.util.Map;
 @Configuration
 public class ProducerConfiguration {
 
-    private static final String KAFKA_BROKER = "localhost:9092";
+    private static final String KAFKA_BROKER = "localhost:29092";
 
     private static final String TOPIC = "topicProduct";
 
