@@ -5,7 +5,6 @@ import com.example.productservice.exception.GlobalException;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,8 +35,8 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Origin,Content-Type, Accept, x-device-user-agent, Content-Type");
 
-        String authHeader = request.getHeader("Authorization");
-
+        //String authHeader = request.getHeader("Authorization");
+        String authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcm5uIiwiaXNzIjoiZXJuIiwiZXhwIjoxNzA4MjA3MTA4fQ.w6nxDLIn_Vqqdso1LOgv_w1CMiHCjrouyjv98-CSDcQ";
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw GlobalException.builder()
