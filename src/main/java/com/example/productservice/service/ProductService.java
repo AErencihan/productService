@@ -20,20 +20,19 @@ public class ProductService {
 
     private final ImageService imageService;
 
-
     private final ProductRepository productRepository;
 
-    private final KafkaService kafkaService;
+    private final KafkaSerializeService kafkaSerializeService;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
 
 
 
-    public ProductService(ImageService imageService, ProductRepository productRepository, KafkaService kafkaService, KafkaTemplate<String, String> kafkaTemplate) {
+    public ProductService(ImageService imageService, ProductRepository productRepository, KafkaSerializeService kafkaSerializeService, KafkaTemplate<String, String> kafkaTemplate) {
         this.imageService = imageService;
         this.productRepository = productRepository;
-        this.kafkaService = kafkaService;
+        this.kafkaSerializeService = kafkaSerializeService;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -54,7 +53,7 @@ public class ProductService {
         }
 
         Product saveproduct = productRepository.save(product);
-        kafkaTemplate.send("topicProduct", kafkaService.serializedData(saveproduct));
+        kafkaTemplate.send("topicProduct", kafkaSerializeService.serializedData(saveproduct));
 
         return ProductDto.builder()
                 .productName(saveproduct.getProductName())
@@ -63,8 +62,6 @@ public class ProductService {
                 .build();
 
     }
-
-
 
 
 

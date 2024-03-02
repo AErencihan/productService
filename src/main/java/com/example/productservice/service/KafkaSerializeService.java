@@ -1,7 +1,6 @@
 package com.example.productservice.service;
 
 import com.example.productservice.exception.GlobalException;
-import com.example.productservice.model.Product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -9,16 +8,16 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class KafkaService {
+public class KafkaSerializeService {
 
     ObjectMapper productMapper = new ObjectMapper();
 
 
-    public String serializedData(Product product){
+    public <T> String serializedData(T t){
         String productConvertString = "";
 
         try {
-            productConvertString = productMapper.writeValueAsString(product);
+            productConvertString = productMapper.writeValueAsString(t);
         } catch (JsonProcessingException e) {
             throw GlobalException.builder()
                     .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)

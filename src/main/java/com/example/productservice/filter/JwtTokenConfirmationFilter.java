@@ -52,6 +52,7 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
             jwtUtil.validateToken(token);
             Claims claims = jwtUtil.getClaims(token);
             request.setAttribute("jti", String.valueOf(claims.get("jti")));
+            response.setHeader("userName", claims.getSubject());
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             throw GlobalException.builder()
