@@ -27,6 +27,8 @@ public class CartService {
                     .message("UserId not found")
                     .build();
         }
+
+        cartEvent.setUserId(response.getUserId());
         kafkaTemplate.send("topicProduct", kafkaSerializeService.serializedData(CartEvent.builder()
                 .productId(cartEvent.getProductId())
                 .userId(cartEvent.getUserId())
