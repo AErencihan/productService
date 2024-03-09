@@ -3,6 +3,7 @@ package com.example.productservice.config;
 import com.example.productservice.model.Product;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -15,7 +16,8 @@ import java.util.Map;
 @Configuration
 public class ProducerConfiguration {
 
-    private static final String KAFKA_BROKER = "localhost:29092";
+    @Value("${kafka.url}")
+    String KAFKA_BROKER = "localhost:29092";
 
     private static final String TOPIC = "topicProduct";
 

@@ -25,7 +25,8 @@ public class ImageService {
     @Value("${minio.default.folder}")
     private String defaultBaseFolder;
 
-    private final String minioUrl = "http://localhost:9000/";
+    @Value("${minio.url}")
+    String minioUrl;
 
 
     public List<Bucket> getAllBuckets() {
