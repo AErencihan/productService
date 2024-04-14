@@ -8,6 +8,7 @@ import com.example.productservice.model.Product;
 import com.example.productservice.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,7 @@ public class ProductService {
 
 
     @Transactional
+    //@PreAuthorize
     public ProductDto createProduct(Product product, MultipartFile file) {
 
         String imageUrl = imageService.uploadFile(file.getOriginalFilename(), file);

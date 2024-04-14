@@ -5,6 +5,7 @@ import com.example.productservice.exception.GlobalException;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 
 @Component
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
@@ -35,8 +37,8 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Origin,Content-Type, Accept, x-device-user-agent, Content-Type");
 
-        //String authHeader = request.getHeader("Authorization");
-        String authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcm5uIiwiaXNzIjoiZXJuIiwiZXhwIjoxNzA4MjA3MTA4fQ.w6nxDLIn_Vqqdso1LOgv_w1CMiHCjrouyjv98-CSDcQ";
+        String authHeader = request.getHeader("Authorization");
+        //String authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcm5uIiwiaXNzIjoiZXJuIiwiZXhwIjoxNzA4MjA3MTA4fQ.w6nxDLIn_Vqqdso1LOgv_w1CMiHCjrouyjv98-CSDcQ";
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw GlobalException.builder()
@@ -51,9 +53,11 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
         try {
             jwtUtil.validateToken(token);
             Claims claims = jwtUtil.getClaims(token);
+            //*****
             request.setAttribute("jti", String.valueOf(claims.get("jti")));
             response.setHeader("userName", claims.getSubject());
             filterChain.doFilter(request, response);
+            claims.get("roles", String.class);
         } catch (Exception e) {
             throw GlobalException.builder()
                     .httpStatus(HttpStatus.UNAUTHORIZED)
