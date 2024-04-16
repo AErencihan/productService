@@ -56,8 +56,10 @@ public class JwtTokenConfirmationFilter extends OncePerRequestFilter {
             //*****
             request.setAttribute("jti", String.valueOf(claims.get("jti")));
             response.setHeader("userName", claims.getSubject());
+
+            Object roles = claims.get("roles");
+            request.setAttribute("roles", roles);
             filterChain.doFilter(request, response);
-            claims.get("roles", String.class);
         } catch (Exception e) {
             throw GlobalException.builder()
                     .httpStatus(HttpStatus.UNAUTHORIZED)

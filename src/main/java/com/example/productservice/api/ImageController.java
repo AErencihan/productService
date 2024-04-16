@@ -1,6 +1,7 @@
 package com.example.productservice.api;
 
 
+import com.example.productservice.filter.PreAuth;
 import com.example.productservice.service.ImageService;
 import io.minio.messages.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class ImageController {
     }
 
     @PostMapping(path = "/upload",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuth(roles = "hasRole('ADMIN')")
     public Map<String, String> uploadFile(@RequestParam(name = "file") MultipartFile files) throws IOException {
         imageService.uploadFile(files.getOriginalFilename(), files);
         Map<String, String> result = new HashMap<>();
